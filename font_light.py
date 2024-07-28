@@ -108,7 +108,7 @@ def draw_char(char):
 
 
 #display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=1.0)
-display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO_AMBIENT, brightness=1.0, resize=False, debug=True)
+display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO_AMBIENT, brightness=1.0, scale=False, debug=True)
 width = display.pixelmap_max_x + 1
 height = display.pixelmap_max_y + 1
 

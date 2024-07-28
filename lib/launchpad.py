@@ -19,7 +19,7 @@ class Display():
     _debug = False
     _resize = True
 
-    def __init__(self, pixelmap, brightness=1.0, resize=True, debug=False):
+    def __init__(self, pixelmap, brightness=1.0, scale=True, debug=False):
         """ pixelmap is a dict of tuples: note-value (e.g. launchpad_layout.LAUNCHPAD_MK3_PRO) 
         """
         self.p_out = mido.open_output(LP_DEVICE_NAME)
@@ -31,7 +31,7 @@ class Display():
         self.pixelmap_max_y = max([d[1] for d in self.pixelmap.keys()])
         self.brightness = brightness
 
-        self._resize = resize
+        self._scale = scale
         self._debug = debug
         if self._debug:
             self._stdscr = curses.initscr()
@@ -139,7 +139,7 @@ class Display():
         # We use a trick: We set each pixel of the display every time regardless of the 
         # size of the image. When the image has no pixel for the given coordinate, we set
         # black.
-        if self._resize:
+        if self._scale:
             resize_ratio = min((self.pixelmap_max_x+1)/image.size[0], (self.pixelmap_max_y+1)/image.size[1])
             new_x = round(image.size[0] * resize_ratio)
             new_y = round(image.size[1] * resize_ratio)

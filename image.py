@@ -3,10 +3,12 @@ from lib import launchpad_layout
 from PIL import Image
 import time
 
-display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=2.0)
+#display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=2.0, scale=True, debug=1)
+display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=1.0, scale=True, debug=1)
 #display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO_AMBIENT, brightness=2.0)
-#image = Image.open('t1.gif')
-image = Image.open('test/giphy.webp')
+image = Image.open('test/t1.gif')
+#image = Image.open('test/giphy.webp')
+
 
 # To iterate through the entire gif
 while True:
@@ -20,7 +22,7 @@ while True:
             diff = t2-t1
             required_duration = image.info['duration'] / 1000
             required_sleep = required_duration - diff
-            print(diff, required_duration, required_sleep)
+            #print(diff, required_duration, required_sleep)
             if required_sleep > 0:
                 time.sleep(required_sleep)
             # do something to im

@@ -57,7 +57,7 @@ def random_color():
 framerate = 10.42  # 125bpm
 
 
-display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=1.0, debug=True)
+display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=1.0, scale=False, debug=True)
 #display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO_AMBIENT, brightness=2.0)
 
 width = display.pixelmap_max_x + 1
