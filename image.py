@@ -4,7 +4,7 @@ from PIL import Image
 import time
 
 display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=2.0)
-#display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO_AMBIENT)
+#display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO_AMBIENT, brightness=2.0)
 #image = Image.open('t1.gif')
 image = Image.open('test/giphy.webp')
 

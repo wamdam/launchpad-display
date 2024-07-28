@@ -21,6 +21,8 @@ class Display():
         self.pixelmap_max_y = max([d[1] for d in self.pixelmap.keys()])
         self.brightness = brightness
 
+        self.clear()
+
         app_version = self.check_launchpad()
         if not app_version:
             raise ValueError("This is no launchpad")
@@ -66,6 +68,11 @@ class Display():
         elif type == 'cc':
             msg = mido.Message('control_change', channel=0, control=pad, value=color_number)
         self.p_out.send(msg)
+
+    def clear(self):
+        for x in range(self.pixelmap_max_x + 1):
+            for y in range(self.pixelmap_max_y + 1):
+                self._setpixel(x, y, 0, 0, 0)
 
     def setimage(self, image):
         """ image is a PIL image """
