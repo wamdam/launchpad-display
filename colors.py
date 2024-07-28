@@ -133,83 +133,37 @@ COLOR_TABLE = {
         'c27661': 127,
     }
 
-class LaunchpadColor:
-    colors = COLOR_TABLE
-    #brightness = None
-    #hue = None
-
-    def __init__(self):
-        #self._calculate_tables()
-        pass
+def cv_to_ints(color_value):
+    """ param: c27661
+        returns: 194, 118, 97
+    """
+    return int(color_value[0:2], 16), int(color_value[2:4], 16), int(color_value[4:6], 16)
 
 
-    def cv_to_ints(self, color_value):
-        """ param: c27661
-            returns: 194, 118, 97
-        """
-        return int(color_value[0:2], 16), int(color_value[2:4], 16), int(color_value[4:6], 16)
+def color_distance(r1, g1, b1, r2, g2, b2):
+  """Calculates the colour distance between two RGB colors.
+  Returns:
+    The colour distance between the two colors.
+  """
+  rmean = (r1 + r2) // 2
+  r = r1 - r2
+  g = g1 - g2
+  b = b1 - b2
+  return math.sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8))
 
 
-    #def brightness_from_rgb(self, r, g, b):
-    #    """ returns int 0..255"""
-    #    return round((r+g+b) / 3)
+def closest_color(r, g, b):
+    """ Returns the color number of the closest color on the launchpad
+        Performance is about 12.000 calls per second on my cpu. 64 pads x 60fps = 3840, so this
+        should be good enough.
+    """
+    min_distance_color_number = 0
+    min_distance = 1e100  # Sorry, I don't know or have time to find the maximum.
+    for color, color_number in COLOR_TABLE.items():
+        distance = color_distance(r, g, b, *cv_to_ints(color))
+        if distance < min_distance:
+            min_distance = distance
+            min_distance_color_number = color_number
+    return min_distance_color_number
 
 
-    #def hue_from_rgb(self, r, g, b):
-    #    """ returns hue in deg (360) """
-    #    hue = 0.0
-    #    _diff = (max(r, g, b) - min(r, g, b))
-    #    if r > g and r > b:
-    #        hue = (g - b) / _diff
-    #    elif g > r and g > b:
-    #        hue = 2.0 + (b - r) / _diff
-    #    elif b > g and b > r:
-    #        hue = 4.0 + (r - g) / _diff
-    #    return round(hue * 60) if hue >= 0 else round(hue * 60) + 360
-
-
-    #def _calculate_tables(self):
-    #    _brightness = []  # contains tuples of brightess_value, color
-    #    _hue = []  # contains tuples of hue_value, color
-    #    for color in self.colors:
-    #        r, g, b = self.cv_to_ints(color)
-    #        brightness = self.brightness_from_rgb(r, g, b)
-    #        hue = self.hue_from_rgb(r, g, b)
-    #        _brightness.append((brightness, color))
-    #        _hue.append((hue, color))
-    #    _brightness.sort()
-    #    _hue.sort()
-    #    self.brightness = _brightness
-    #    self.hue = _hue
-
-
-    def color_distance(self, r1, g1, b1, r2, g2, b2):
-      """Calculates the colour distance between two RGB colors.
-      Returns:
-        The colour distance between the two colors.
-      """
-      rmean = (r1 + r2) // 2
-      r = r1 - r2
-      g = g1 - g2
-      b = b1 - b2
-      return math.sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8))
-
-
-    def closest_color(self, r, g, b):
-        """ Returns the color number of the closest color on the launchpad
-            Performance is about 12.000 calls per second on my cpu. 64 pads x 60fps = 3840, so this
-            should be good enough.
-        """
-        min_distance_color_number = 0
-        min_distance = 1e100  # Sorry, I don't know or have time to find the maximum.
-        for color, color_number in self.colors.items():
-            distance = self.color_distance(r, g, b, *self.cv_to_ints(color))
-            if distance < min_distance:
-                min_distance = distance
-                min_distance_color_number = color_number
-        return min_distance_color_number
-
-
-#lpc = LaunchpadColor()
-#test_color = 'f7ff00'
-#lpc.closest_color(*lpc.cv_to_ints(test_color))
