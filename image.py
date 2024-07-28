@@ -1,5 +1,5 @@
-import launchpad
-import launchpad_layout
+from lib import launchpad
+from lib import launchpad_layout
 from PIL import Image
 import time
 

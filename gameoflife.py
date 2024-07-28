@@ -1,5 +1,5 @@
-import launchpad
-import launchpad_layout
+from lib import launchpad
+from lib import launchpad_layout
 from PIL import Image, ImageFont, ImageDraw
 import time
 import random
@@ -57,7 +57,7 @@ def random_color():
 framerate = 10.42  # 125bpm
 
 
-display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=1.0)
+display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO, brightness=1.0, debug=True)
 #display = launchpad.Display(launchpad_layout.LAUNCHPAD_MK3_PRO_AMBIENT, brightness=2.0)
 
 width = display.pixelmap_max_x + 1
@@ -80,7 +80,7 @@ while True:
                     display_image.putpixel((x, y), (0, 0, 0))
         if max(grid) == [0] * width or grid == grid_1 or grid == grid_2 or generation > 100:
             time.sleep(.5)
-            print("New!")
+            #print("New!")
             break
         grid_2 = grid_1
         grid_1 = grid
